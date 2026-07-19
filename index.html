@@ -503,7 +503,11 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.83rem}
 .qgrid .qcard:nth-child(4){animation-delay:.27s}
 .prsec{animation:aup .45s ease both}
 @media (prefers-reduced-motion:reduce){.statrow2,.qcard,.prsec{animation:none}}
-.qcard{padding:16px 20px}
+.qcard{padding:16px 20px;position:relative}
+.qcard.big{grid-column:1 / -1}
+.qx{position:absolute;top:13px;right:16px;font-size:.72rem;font-weight:600;color:var(--blue);border:1px solid var(--line);border-radius:6px;padding:3px 10px;background:var(--card);z-index:2}
+.qx:hover{background:var(--blue-soft);border-color:var(--blue)}
+.qcard h4{padding-right:70px}
 .qcard h4{font-size:.9rem;margin-bottom:2px}
 .qcap{font-size:.73rem;color:var(--muted);margin-bottom:12px}
 .hbars.sm .hlabel{font-size:.75rem}
@@ -1620,14 +1624,15 @@ function timingBarsQ(c){const m=hzCount(c),total=c.exposures.length;
       <span class="htrack"><span class="hfill" style="width:${(m[k]/max*100).toFixed(1)}%;background:${HZC[k]}"></span></span>
       <span class="hval num">${m[k]} of ${total}</span></button>`).join("")}</div>`}
 function qchartsHTML(c){const ot=Object.entries(otCount(c)).filter(x=>x[1]).map(([k,v])=>({l:k,v,c:OTC[k],key:k}));
+  const qx=`<button class="qx" onclick="const c=this.parentElement;c.classList.toggle('big');this.textContent=c.classList.contains('big')?'Shrink':'Enlarge';c.scrollIntoView({behavior:'smooth',block:'nearest'})" aria-label="Enlarge or shrink this chart">Enlarge</button>`;
   return `<div class="qgrid">
-    <div class="card qcard"><h4>What risks or opportunities are emerging</h4><div class="qcap">Every exposure by type of engagement · click a segment</div>
+    <div class="card qcard">${qx}<h4>What risks or opportunities are emerging</h4><div class="qcap">Every exposure by type of engagement · click a segment</div>
       ${donutSVG(ot,c.exposures.length,"otPop")}</div>
-    <div class="card qcard"><h4>Which practice areas are relevant</h4><div class="qcap">Exposures feeding each team · click a row to open that team's table</div>
+    <div class="card qcard">${qx}<h4>Which practice areas are relevant</h4><div class="qcap">Exposures feeding each team · click a row to open that team's table</div>
       ${barsTop(c,8)}</div>
-    <div class="card qcard"><h4>What legal work could arise</h4><div class="qcap">Work products identified, by lead practice · click a row to open that team's table</div>
+    <div class="card qcard">${qx}<h4>What legal work could arise</h4><div class="qcap">Work products identified, by lead practice · click a row to open that team's table</div>
       ${workBars(c,8)}</div>
-    <div class="card qcard"><h4>What is the likely time horizon</h4><div class="qcap">Exposures per team, split by urgency · darker means more · click a cell</div>
+    <div class="card qcard">${qx}<h4>What is the likely time horizon</h4><div class="qcap">Exposures per team, split by urgency · darker means more · click a cell</div>
       <div class="heatwrap">${heatSVG(c)}</div></div>
   </div>`}
 function armOutFx(){const reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1811,7 +1816,7 @@ function logSVG(stakes){const data=[...stakes].sort((a,b)=>b.v-a.v);
 
 function heatSVG(c){const groups=[...pgCounts(c).entries()].slice(0,8).map(x=>x[0]);
   const cnt=(p,h)=>c.exposures.filter(e=>e.pr.includes(p)&&e.hz===h).length;
-  const lw=248,cw=740,rh=32,gap=3,colw=(cw-lw-32)/3,h=groups.length*rh+26;
+  const lw=248,cw=740,rh=32,gap=3,colw=(cw-lw-32)/3,h=groups.length*rh+44;
   const shade=n=>n<=0?null:n===1?"#7fb2ec":n===2?"#2a78d6":"#0d3a72";
   return `<svg viewBox="0 0 ${cw} ${h}" role="img" aria-label="Practice-group demand by time horizon heatmap">
   ${groups.map((p,gi)=>{const y=gi*rh;
@@ -1820,7 +1825,7 @@ function heatSVG(c){const groups=[...pgCounts(c).entries()].slice(0,8).map(x=>x[
       return `<g ${n?`class="chit" onclick="heatPop(event,${gi},'${hz}')"`:""}>${n?`<title>${esc(p)} · ${HZ[hz]} · click for the exposures</title>`:""}
         <rect x="${x}" y="${y+gap}" width="${colw}" height="${rh-2*gap}" rx="4" fill="${f||"var(--paper)"}" stroke="var(--line)" stroke-width="${f?0:1}"></rect>
         ${n?`<text x="${x+colw/2}" y="${y+rh/2+4}" text-anchor="middle" font-size="11.5" font-weight="800" fill="${n===1?"#0b2a52":"#fff"}">${n}</text>`:""}</g>`}).join("")}).join("")}
-  ${["Immediate (0 to 6 months)","Medium-term (6 to 12 months)","Long-term (more than 12 months)"].map((l,ci)=>`<text x="${lw+ci*(colw+12)+colw/2}" y="${groups.length*rh+18}" text-anchor="middle" font-size="9" fill="var(--muted)">${l}</text>`).join("")}
+  ${[["Immediate","0 to 6 months"],["Medium-term","6 to 12 months"],["Long-term","more than 12 months"]].map(([l,range],ci)=>`<text x="${lw+ci*(colw+12)+colw/2}" y="${groups.length*rh+16}" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink2)">${l}</text><text x="${lw+ci*(colw+12)+colw/2}" y="${groups.length*rh+30}" text-anchor="middle" font-size="9" fill="var(--muted)">${range}</text>`).join("")}
   </svg>`}
 
 /* ================= exposure drawer ================= */
