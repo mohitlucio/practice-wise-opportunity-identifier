@@ -1811,7 +1811,7 @@ function logSVG(stakes){const data=[...stakes].sort((a,b)=>b.v-a.v);
 
 function heatSVG(c){const groups=[...pgCounts(c).entries()].slice(0,8).map(x=>x[0]);
   const cnt=(p,h)=>c.exposures.filter(e=>e.pr.includes(p)&&e.hz===h).length;
-  const lw=248,cw=660,rh=32,gap=3,colw=(cw-lw-32)/3,h=groups.length*rh+26;
+  const lw=248,cw=740,rh=32,gap=3,colw=(cw-lw-32)/3,h=groups.length*rh+26;
   const shade=n=>n<=0?null:n===1?"#7fb2ec":n===2?"#2a78d6":"#0d3a72";
   return `<svg viewBox="0 0 ${cw} ${h}" role="img" aria-label="Practice-group demand by time horizon heatmap">
   ${groups.map((p,gi)=>{const y=gi*rh;
@@ -1820,7 +1820,7 @@ function heatSVG(c){const groups=[...pgCounts(c).entries()].slice(0,8).map(x=>x[
       return `<g ${n?`class="chit" onclick="heatPop(event,${gi},'${hz}')"`:""}>${n?`<title>${esc(p)} · ${HZ[hz]} · click for the exposures</title>`:""}
         <rect x="${x}" y="${y+gap}" width="${colw}" height="${rh-2*gap}" rx="4" fill="${f||"var(--paper)"}" stroke="var(--line)" stroke-width="${f?0:1}"></rect>
         ${n?`<text x="${x+colw/2}" y="${y+rh/2+4}" text-anchor="middle" font-size="11.5" font-weight="800" fill="${n===1?"#0b2a52":"#fff"}">${n}</text>`:""}</g>`}).join("")}).join("")}
-  ${["Immediate (0 to 6 months)","Medium-term (6 to 12 months)","Long-term (more than 12 months)"].map((l,ci)=>`<text x="${lw+ci*(colw+12)+colw/2}" y="${groups.length*rh+18}" text-anchor="middle" font-size="9.3" fill="var(--muted)">${l}</text>`).join("")}
+  ${["Immediate (0 to 6 months)","Medium-term (6 to 12 months)","Long-term (more than 12 months)"].map((l,ci)=>`<text x="${lw+ci*(colw+12)+colw/2}" y="${groups.length*rh+18}" text-anchor="middle" font-size="9" fill="var(--muted)">${l}</text>`).join("")}
   </svg>`}
 
 /* ================= exposure drawer ================= */
