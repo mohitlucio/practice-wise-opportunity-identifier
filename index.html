@@ -84,6 +84,9 @@ a:hover{text-decoration:underline}
   transition:border-color .15s,box-shadow .15s,transform .15s}
 .res-link:hover{border-color:var(--navy-ink);box-shadow:0 2px 8px rgba(0,0,0,.10);transform:translateY(-1px)}
 .res-link svg{flex:none}
+.welcome .res-links{border-top:none;padding-top:0;margin-top:6px;justify-content:center}
+.welcome .res-link{background:var(--card)}
+.welcome>:nth-child(4){animation-delay:.55s}
 .demo-link{margin-top:16px;text-align:center}
 .err{color:#c22727;font-size:.78rem;margin-top:6px;min-height:1em}
 
@@ -725,7 +728,7 @@ input[type="date"]{padding:9px 11px;border:1px solid var(--line);border-radius:8
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M10 8.5l6 3.5-6 3.5z" fill="currentColor"/></svg>
           Tool Walkthrough Video
         </a>
-        <a class="res-link" href="Product_RoadMap.pdf" target="_blank" rel="noopener" title="Open the production roadmap (PDF)">
+        <a class="res-link" href="Product%20RoadMap.pdf" target="_blank" rel="noopener" title="Open the product roadmap (PDF)">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 13h8M8 17h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           Product RoadMap
         </a>
@@ -1200,6 +1203,16 @@ function renderDash(){
     <div class="w-logo" aria-hidden="true"><img class="tri-ic" src="${TRI_IC}" width="52" alt=""></div>
     <h1 class="w-title">Practice-Wise Opportunity Identifier Tool</h1>
     <p class="w-sub">Pick a project from the panel, or start a new one to scan a company for practice-group opportunities.</p>
+    <div class="res-links">
+      <a class="res-link" href="https://mohitlucio.github.io/practice-wise-tool-walkthrough/" target="_blank" rel="noopener" title="Watch the 2-minute walkthrough of the tool">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M10 8.5l6 3.5-6 3.5z" fill="currentColor"/></svg>
+        Tool Walkthrough Video
+      </a>
+      <a class="res-link" href="Product%20RoadMap.pdf" target="_blank" rel="noopener" title="Open the product roadmap (PDF)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 13h8M8 17h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Product RoadMap
+      </a>
+    </div>
   </div>`}
 function icoFor(d){return d.type==="Judgment"||d.type==="Order"?"JUD":d.type.includes("Gazette")?"GAZ":d.type.includes("filing")?"FIL":d.type.includes("release")?"REL":d.type.includes("report")?"RPT":d.type.includes("Upload")?"UPL":"BRF"}
 function srcLabel(d){return d.srcId?`${SRC[d.srcId].n} (${SRC[d.srcId].host})`:(d.via==="upload"?"Uploaded by a workspace member":"Firm repository · compiled brief")}
